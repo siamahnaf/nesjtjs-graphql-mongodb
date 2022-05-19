@@ -2,25 +2,29 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Question {
-  """ID of the question"""
-  id: Int!
+type QuestionEntity {
+  """Mongoose Id Type"""
+  _id: ID!
   content: String!
   answerString: String
   answerNumber: Float
   createdAt: Date!
-  difficulty: String
+  updatedAt: Date!
 }
 
 scalar Date
 
+type CreateQuestionEntity {
+  success: Boolean!
+  message: String!
+}
+
 type Query {
-  sayHello: String!
-  question: [Question!]!
+  getQuestion: [QuestionEntity!]!
 }
 
 type Mutation {
-  createQuestion(createQuestionInput: CreateQuestionInput!): Question!
+  createQuestion(createQuestionInput: CreateQuestionInput!): CreateQuestionEntity!
 }
 
 input CreateQuestionInput {

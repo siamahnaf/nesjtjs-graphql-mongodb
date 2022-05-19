@@ -1,22 +1,29 @@
+//Packages
 import { Query, Resolver, Args, Mutation, Subscription } from "@nestjs/graphql";
-import { Question } from "./entities/question.entity";
-import { QuestionService } from "./question.service";
-import { CreateQuestionInput } from "./dto/create-question.input";
 import { PubSub } from "graphql-subscriptions";
+//Entity
+import { QuestionEntity, CreateQuestionEntity } from "./entities/question.entity";
+//Service
+import { QuestionService } from "./question.service";
+//Dto
+import { CreateQuestionInput } from "./dto/create-question.input";
 
+
+//Subscription Publisher
 const pubSub = new PubSub();
+//Subcription Types
 const QUESTION_ADDED = "questionAdded";
 
-@Resolver(() => Question)
+@Resolver(() => QuestionEntity)
 export class QuestionResolver {
     constructor(private readonly questionsService: QuestionService) { }
-
-    @Query(() => [Question], { name: "question" })
+    //Get Question Resolver
+    @Query(() => [QuestionEntity], { name: "getQuestion" })
     getAll() {
         return this.questionsService.findAll()
     }
-
-    @Mutation(() => Question)
+    //Create Question Resolver
+    @Mutation(() => CreateQuestionEntity, { name: "createQuestion" })
     createQuestion(
         @Args('createQuestionInput')
         createQuestionInput: CreateQuestionInput
@@ -26,6 +33,7 @@ export class QuestionResolver {
         })
         return this.questionsService.create(createQuestionInput);
     }
+    //Question Added Subscriptions
     @Subscription((returns) => String)
     questionAdded() {
         return pubSub.asyncIterator(QUESTION_ADDED);

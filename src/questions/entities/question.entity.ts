@@ -1,11 +1,14 @@
-import { Field, Float, Int, ObjectType } from "@nestjs/graphql";
+//Packages
+import { Field, Float, ID, ObjectType } from "@nestjs/graphql";
+import { ObjectId } from "mongoose";
+//Custom Scalar
 import { DateScalar } from "src/date.scaler";
-import { DIFFICULTY } from "./difficulty.enum";
 
+//Get Question Types Entity
 @ObjectType()
-export class Question {
-    @Field(() => Int, { description: "ID of the question", nullable: false })
-    id: number;
+export class QuestionEntity {
+    @Field(() => ID, { description: "Mongoose Id Type", nullable: false })
+    _id: ObjectId;
 
     @Field()
     content: string;
@@ -19,6 +22,16 @@ export class Question {
     @Field()
     createdAt: DateScalar;
 
-    @Field({ nullable: true })
-    difficulty?: DIFFICULTY
+    @Field()
+    updatedAt: DateScalar;
+}
+
+//Create Question Entity
+@ObjectType()
+export class CreateQuestionEntity {
+    @Field(() => Boolean, { nullable: false })
+    success: boolean;
+
+    @Field(() => String, { nullable: false })
+    message: string;
 }

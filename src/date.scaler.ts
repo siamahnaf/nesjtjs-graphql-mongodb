@@ -6,7 +6,6 @@ export class DateScalar implements CustomScalar<string, Date> {
     description: "Date custom scalar type";
     serialize(value: Date): string {
         return value.toISOString();
-        // return value.getTime(); // value sent to the client
     };
     parseValue(value: number | string) {
         return new Date(value)

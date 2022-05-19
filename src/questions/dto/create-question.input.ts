@@ -1,5 +1,7 @@
+//Packages
 import { Field, Float, InputType } from "@nestjs/graphql";
 
+//Input Types
 @InputType()
 export class CreateQuestionInput {
     @Field()
